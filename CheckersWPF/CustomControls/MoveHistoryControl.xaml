@@ -19,6 +19,7 @@
                         <ToggleButton IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                       Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                       Width="{Binding Width, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                      Height="{Binding Height, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                       Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                       BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                       BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
@@ -33,14 +34,10 @@
     </Grid.Resources>
     <ListView ItemsSource="{Binding Controller.MoveHistory}"
               Width="220"
-              HorizontalAlignment="Left"
-              SelectionMode="Single">
-        <!--<ListView.ItemContainerTransitions>
-            <TransitionCollection/>
-        </ListView.ItemContainerTransitions>-->
+              HorizontalAlignment="Left">
         <ListView.ItemContainerStyle>
             <Style TargetType="ListViewItem">
-                <Setter Property="Margin" Value="0,-8" />
+                <Setter Property="Focusable" Value="false"/>
             </Style>
         </ListView.ItemContainerStyle>
         <ListView.ItemTemplate>
