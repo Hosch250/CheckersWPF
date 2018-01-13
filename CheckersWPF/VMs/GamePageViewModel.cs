@@ -15,26 +15,6 @@ namespace CheckersWPF.VMs
 {
     public class GamePageViewModel : NavigationViewModel, INotifyPropertyChanged
     {
-        //private IPropertySet RoamingSettings
-        //{
-        //    get
-        //    {
-        //        try
-        //        {
-        //            return ApplicationData.Current.RoamingSettings.Values;
-        //        }
-        //        catch (InvalidOperationException)
-        //        {
-        //            // we are running in a test and can't load the settings
-        //            return new PropertySet
-        //            {
-        //                {"Theme", "Wood"},
-        //                {"EnableSoundEffects", bool.FalseString},
-        //            };
-        //        }
-        //    }
-        //}
-
         public GamePageViewModel()
         {
             Controller = GameController.FromVariant(Variant.AmericanCheckers);

@@ -155,34 +155,34 @@
         </Grid>
         <controls:MoveHistoryControl Background="MintCream" Grid.RowSpan="4" x:Name="SmallMoveHistory" Visibility="Collapsed" OnMoveSelection="MoveHistory_OnMoveSelection" />
 
-        <Border BorderBrush="Black" BorderThickness="2">
-            <Grid Grid.RowSpan="4"
-                  Grid.ColumnSpan="3"
-                  VerticalAlignment="Center"
-                  HorizontalAlignment="Center"
-                  MaxWidth="500"
-                  Background="MintCream"
-                  Visibility="{Binding DisplayCreateGameGrid, Converter={StaticResource BoolToVisibility}}">
-                <controls:NewGameControl />
-            </Grid>
+        <Border BorderBrush="Black"
+                BorderThickness="2"
+                Grid.RowSpan="4"
+                Grid.ColumnSpan="3"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                MaxWidth="500"
+                Background="MintCream"
+                Visibility="{Binding DisplayCreateGameGrid, Converter={StaticResource BoolToVisibility}}">
+            <controls:NewGameControl />
         </Border>
-        <Border BorderBrush="Black" BorderThickness="2">
-            <Grid Background="MintCream"
+        <Border BorderBrush="Black"
+                BorderThickness="2"
+                Background="MintCream"
                 Grid.RowSpan="4"
                 Visibility="{Binding DisplaySettingsGrid, Converter={StaticResource BoolToVisibility}}"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center">
-                <StackPanel>
-                    <controls:SettingsControl />
-                    <Button VerticalAlignment="Bottom"
+            <StackPanel>
+                <controls:SettingsControl />
+                <Button VerticalAlignment="Bottom"
                         HorizontalAlignment="Right"
                         Width="100"
                         Margin="0,10,25,25"
                         Command="{Binding HideSettingsCommand}"
                         CommandParameter="{Binding ElementName=FenBox, Path=Text}"
                         Content="Close" />
-                </StackPanel>
-            </Grid>
+            </StackPanel>
         </Border>
     </Grid>
     <!--<Page.BottomAppBar>
