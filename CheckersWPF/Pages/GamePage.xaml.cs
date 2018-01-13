@@ -15,15 +15,15 @@ namespace CheckersWPF.Pages
         {
             InitializeComponent();  
 
-            //DataContextChanged += GamePage_DataContextChanged;
-            //Board.SizeChanged += (sender, e) => SmallGameStatus.Width = Board.ActualWidth;
+            DataContextChanged += GamePage_DataContextChanged;
+            Board.SizeChanged += (sender, e) => SmallGameStatus.Width = Board.ActualWidth;
         }
 
-        //private void GamePage_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        //{
-        //    ViewModel.MoveUndone += ViewModel_MoveUndone;
-        //    ViewModel.PlayerTurn += ViewModel_PlayerTurn;
-        //}
+        private void GamePage_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            ViewModel.MoveUndone += ViewModel_MoveUndone;
+            ViewModel.PlayerTurn += ViewModel_PlayerTurn;
+        }
 
         private void ViewModel_PlayerTurn(object sender, Player e)
         {
@@ -70,23 +70,23 @@ namespace CheckersWPF.Pages
             var areHintsEnabled = AreHintsEnabled();
 
             var validMoves = ViewModel.Controller.GetValidMoves();
-            var validstartingCoords =
+            List<Coord> validStartingCoords =
                 ViewModel.Controller.CurrentCoord != null
                 ? new List<Coord> { ViewModel.Controller.CurrentCoord }
                 : validMoves.Select(c => c[0]).Distinct().ToList();
-            if (coord == null || !validstartingCoords.Contains(coord))
+            if (coord == null || !validStartingCoords.Contains(coord))
             {
                 if (areHintsEnabled)
                 {
-                    foreach (var move in validstartingCoords)
+                    foreach (var move in validStartingCoords)
                     {
                         Board.SetBorder(move);
                     }
                 }
 
-                if (validstartingCoords.Count == 1)
+                if (validStartingCoords.Count == 1)
                 {
-                    Board.Selection = validstartingCoords[0];
+                    Board.Selection = validStartingCoords[0];
                 }
 
                 return;
@@ -124,17 +124,17 @@ namespace CheckersWPF.Pages
             }
         }
 
-        //private void MoveMenu_Tapped(object sender, TappedRoutedEventArgs e) =>
-        //    SmallMoveHistory.Visibility = Visibility.Visible;
+        private void MoveMenu_Tapped(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
+            SmallMoveHistory.Visibility = Visibility.Visible;
 
-        //private void MoveHistory_OnMoveSelection(object sender, EventArgs e) =>
-        //    SmallMoveHistory.Visibility = Visibility.Collapsed;
+        private void MoveHistory_OnMoveSelection(object sender, EventArgs e) =>
+            SmallMoveHistory.Visibility = Visibility.Collapsed;
 
-        //private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    BottomAppBar.IsOpen = false;
-        //    ((ComboBox)sender).SelectedIndex = 0;
-        //}
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //BottomAppBar.IsOpen = false;
+            ((ComboBox)sender).SelectedIndex = 0;
+        }
 
         //private void CloseAppBar(object sender, RoutedEventArgs e) =>
         //    BottomAppBar.IsOpen = false;

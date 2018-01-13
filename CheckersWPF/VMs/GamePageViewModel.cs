@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CheckersWPF.Enums;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace CheckersWPF.VMs
 {
@@ -66,7 +67,6 @@ namespace CheckersWPF.VMs
                     move = Controller.GetMove(Level, _cancelComputerMoveTokenSource.Token).ToList();
                     if (move.Any())
                     {
-                        await 
                         await Application.Current.Dispatcher.InvokeAsync(() => MovePiece(move), System.Windows.Threading.DispatcherPriority.Render);
                     }
                 });
@@ -98,18 +98,14 @@ namespace CheckersWPF.VMs
             }
         }
 
-        private async void PlayEffectAsync()
+        private void PlayEffect()
         {
-            //var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync($"Assets\\{(string)RoamingSettings["Theme"]}Theme");
-            //var file = await folder.GetFileAsync("CheckerClick.mp3");
-            //var stream = await file.OpenAsync(FileAccessMode.Read);
-
-            //var player = BackgroundMediaPlayer.Current;
-            //var mediaSource = MediaSource.CreateFromStream(stream, file.ContentType);
-            //(player.Source as IDisposable)?.Dispose();
-            //player.Source = mediaSource;
-            
-            //player.Play();
+            var mediaElement = new MediaElement
+            {
+                Source = new Uri("pack://application:,,,/Assets/WoodTheme/CheckerClick.png"),
+                LoadedBehavior = MediaState.Manual
+            };
+            mediaElement.Play();
         }
 
         private Task MovePiece(List<Coord> move)
@@ -121,7 +117,7 @@ namespace CheckersWPF.VMs
 
             //if (bool.Parse((string)RoamingSettings["EnableSoundEffects"]))
             //{
-            //    PlayEffectAsync();
+                PlayEffect();
             //}
             
             Controller = Controller.WithBoard(LastMove()).Move(move);

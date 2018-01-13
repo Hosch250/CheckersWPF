@@ -1,5 +1,8 @@
-﻿using CheckersWPF.Pages;
+﻿using CheckersWPF.Facade;
+using CheckersWPF.Pages;
+using CheckersWPF.VMs;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace CheckersWPF
 {
@@ -7,11 +10,27 @@ namespace CheckersWPF
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            var board = new GamePage();
-
-            MainWindow = new Window
+            var gamePage = new GamePage
             {
-                Content = board
+                DataContext = new GamePageViewModel()
+            };
+
+            var boardEditor = new BoardEditor
+            {
+                DataContext = new BoardEditorViewModel(Board.DefaultBoard(Variant.AmericanCheckers))
+            };
+
+            var rules = new Rules
+            {
+                DataContext = new RulesViewModel()
+            };
+
+            var board = new MainPage(gamePage, boardEditor, rules);
+
+            MainWindow = new NavigationWindow
+            {
+                Content = board,
+                ShowsNavigationUI = false
             };
 
             MainWindow.Show();
