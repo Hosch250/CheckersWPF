@@ -4,60 +4,27 @@ using System.Linq;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CheckersWPF.Enums;
+using CheckersWPF.Properties;
 
 namespace CheckersWPF.VMs
 {
     public class SettingsViewModel : INotifyPropertyChanged
     {
-        //private IPropertySet RoamingSettings
-        //{
-        //    get
-        //    {
-        //        try
-        //        {
-        //            return ApplicationData.Current.RoamingSettings.Values;
-        //        }
-        //        catch (InvalidOperationException)
-        //        {
-        //            // we are running in a test and can't load the settings
-        //            return new PropertySet
-        //            {
-        //                {"Theme", "Wood"},
-        //                {"EnableSoundEffects", bool.TrueString},
-        //                {"EnableMoveHints", bool.FalseString},
-        //            };
-        //        }
-        //    }
-        //}
-
         public SettingsViewModel()
         {
-            var tmpTheme = ""; // (string)RoamingSettings["Theme"];
+            var tmpTheme = Settings.Default.Theme;
             SelectedTheme = string.IsNullOrEmpty(tmpTheme) ? Theme.Wood : (Theme)Enum.Parse(typeof(Theme), tmpTheme);
-
-            var tmpEnableSoundEffects = ""; // (string)RoamingSettings["EnableSoundEffects"];
-            EnableSoundEffects = string.IsNullOrEmpty(tmpEnableSoundEffects) || bool.Parse(tmpEnableSoundEffects);
-
-            var tmpEnableMoveHints = ""; // (string)RoamingSettings["EnableMoveHints"];
-            EnableMoveHints = !string.IsNullOrEmpty(tmpEnableMoveHints) && bool.Parse(tmpEnableMoveHints);
+            
+            EnableSoundEffects = bool.Parse(Settings.Default.EnableSoundEffects);
+            
+            EnableMoveHints = bool.Parse(Settings.Default.EnableMoveHints);
         }
 
-        //private void AssignRoamingSetting(string name, string value)
-        //{
-        //    try
-        //    {
-        //        var roamingSettings = ApplicationData.Current.RoamingSettings;
-        //        if ((string)roamingSettings.Values[name] != value)
-        //        {
-        //            roamingSettings.Values[name] = value;
-        //            ApplicationData.Current.SignalDataChanged();
-        //        }
-        //    }
-        //    catch (InvalidOperationException)
-        //    {
-        //        // we are running from a test, and can't load the settings
-        //    }
-        //}
+        private void AssignSetting(string name, string value)
+        {
+            Settings.Default.PropertyValues[name].PropertyValue = value;
+            Settings.Default.Save();
+        }
 
         public List<Theme> Themes =>
             Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
@@ -74,7 +41,7 @@ namespace CheckersWPF.VMs
                     OnPropertyChanged();
                 }
 
-                //AssignRoamingSetting("Theme", value.ToString());
+                AssignSetting("Theme", value.ToString());
             }
         }
 
@@ -90,7 +57,7 @@ namespace CheckersWPF.VMs
                     OnPropertyChanged();
                 }
 
-                //AssignRoamingSetting("EnableSoundEffects", value.ToString());
+                AssignSetting("EnableSoundEffects", value.ToString());
             }
         }
 
@@ -106,7 +73,7 @@ namespace CheckersWPF.VMs
                     OnPropertyChanged();
                 }
 
-                //AssignRoamingSetting("EnableMoveHints", value.ToString());
+                AssignSetting("EnableMoveHints", value.ToString());
             }
         }
 

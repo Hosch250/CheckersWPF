@@ -1,5 +1,6 @@
 ﻿using CheckersWPF.Facade;
 using CheckersWPF.Pages;
+using CheckersWPF.Properties;
 using CheckersWPF.VMs;
 using System.Windows;
 using System.Windows.Navigation;
@@ -34,6 +35,11 @@ namespace CheckersWPF
             };
 
             MainWindow.Show();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            Settings.Default.Save();
         }
     }
 }

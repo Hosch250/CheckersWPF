@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using CheckersWPF.Enums;
 using CheckersWPF.Facade;
+using CheckersWPF.Properties;
 using CheckersWPF.VMs;
 
 namespace CheckersWPF.Pages
@@ -12,33 +13,32 @@ namespace CheckersWPF.Pages
     {
         private Image _draggedImage;
         private Piece _piece;
-        //private readonly ApplicationDataContainer _roamingSettings = ApplicationData.Current.RoamingSettings;
 
         private BoardEditorViewModel ViewModel => (BoardEditorViewModel)DataContext;
 
         public BoardEditor()
         {
             InitializeComponent();
-
-            _currentTheme = "Wood"; // (string)_roamingSettings.Values["Theme"];
-            //ApplicationData.Current.DataChanged += Current_DataChanged;
+            
             LoadImages();
+
+            Settings.Default.SettingChanging += SettingChanging;
         }
 
         private string _currentTheme;
-        //private void Current_DataChanged(ApplicationData sender, object args)
-        //{
-        //    if ((string)_roamingSettings.Values["Theme"] == _currentTheme)
-        //    {
-        //        return;
-        //    }
+        private void SettingChanging(object sender, System.Configuration.SettingChangingEventArgs e)
+        {
+            if ((string) e.NewValue == _currentTheme)
+            {
+                return;
+            }
 
-        //    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-        //    {
-        //        _currentTheme = (string)_roamingSettings.Values["Theme"];
-        //        LoadImages();
-        //    });
-        //}
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _currentTheme = (string)e.NewValue;
+                LoadImages();
+            }, System.Windows.Threading.DispatcherPriority.Normal);
+        }
 
         private void LoadImages()
         {
@@ -59,24 +59,25 @@ namespace CheckersWPF.Pages
         {
             if (piece == null) { return null; }
 
+            var theme = Properties.Settings.Default.Theme;
             if (piece.Equals(Piece.WhiteChecker))
             {
-                return new Uri($"pack://application:,,,/Assets/WoodTheme/WhiteChecker.png", UriKind.Absolute);
+                return new Uri($"pack://application:,,,/Assets/{theme}Theme/WhiteChecker.png", UriKind.Absolute);
             }
 
             if (piece.Equals(Piece.WhiteKing))
             {
-                return new Uri($"pack://application:,,,/Assets/WoodTheme/WhiteKing.png", UriKind.Absolute);
+                return new Uri($"pack://application:,,,/Assets/{theme}Theme/WhiteKing.png", UriKind.Absolute);
             }
 
             if (piece.Equals(Piece.BlackChecker))
             {
-                return new Uri($"pack://application:,,,/Assets/WoodTheme/BlackChecker.png", UriKind.Absolute);
+                return new Uri($"pack://application:,,,/Assets/{theme}Theme/BlackChecker.png", UriKind.Absolute);
             }
 
             if (piece.Equals(Piece.BlackKing))
             {
-                return new Uri($"pack://application:,,,/Assets/WoodTheme/BlackKing.png", UriKind.Absolute);
+                return new Uri($"pack://application:,,,/Assets/{theme}Theme/BlackKing.png", UriKind.Absolute);
             }
 
             throw new MissingMemberException("Piece not found");

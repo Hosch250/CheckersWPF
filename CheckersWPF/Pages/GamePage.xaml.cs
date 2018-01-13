@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using CheckersWPF.Enums;
 using CheckersWPF.Facade;
+using CheckersWPF.Properties;
 using CheckersWPF.VMs;
 
 namespace CheckersWPF.Pages
@@ -58,7 +59,7 @@ namespace CheckersWPF.Pages
 
         private bool AreHintsEnabled()
         {
-            var isMoveHintsEnabled = ""; // (string)ApplicationData.Current.RoamingSettings.Values["EnableMoveHints"];
+            var isMoveHintsEnabled = Settings.Default.EnableMoveHints;
 
             if (string.IsNullOrEmpty(isMoveHintsEnabled)) { return false; }
 

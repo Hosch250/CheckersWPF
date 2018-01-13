@@ -1,5 +1,6 @@
 ﻿using CheckersWPF.Enums;
 using CheckersWPF.Facade;
+using CheckersWPF.Properties;
 using System;
 using System.Linq;
 using System.Windows;
@@ -8,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace CheckersWPF.CustomControls
 {
@@ -31,12 +33,27 @@ namespace CheckersWPF.CustomControls
             InitializeComponent();
             Board = Board.DefaultBoard(Variant.AmericanCheckers);
 
-            //_currentTheme = "Wood"; // (string)_roamingSettings.Values["Theme"];
+            //_currentTheme = "{theme}"; // (string)_roamingSettings.Values["Theme"];
             //ApplicationData.Current.DataChanged += DataChanged;
 
             LoadBoard();
 
             BoardGrid.Loaded += (sender, e) => ControlSizeChanged(null, null);
+
+            Settings.Default.SettingChanging += SettingChanging;
+        }
+
+        private void SettingChanging(object sender, System.Configuration.SettingChangingEventArgs e)
+        {
+            UpdateTheme();
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (Settings.Default.EnableMoveHints == bool.FalseString)
+                {
+                    ClearBorders();
+                }
+            }, DispatcherPriority.Normal);
         }
 
         public Board Board
@@ -142,24 +159,26 @@ namespace CheckersWPF.CustomControls
         {
             if (piece == null) { return null; }
 
+            var theme = Properties.Settings.Default.Theme;
+
             if (piece.Equals(Piece.WhiteChecker))
             {
-                return $"pack://application:,,,/Assets/WoodTheme/WhiteChecker.png";
+                return $"pack://application:,,,/Assets/{theme}Theme/WhiteChecker.png";
             }
 
             if (piece.Equals(Piece.WhiteKing))
             {
-                return $"pack://application:,,,/Assets/WoodTheme/WhiteKing.png";
+                return $"pack://application:,,,/Assets/{theme}Theme/WhiteKing.png";
             }
 
             if (piece.Equals(Piece.BlackChecker))
             {
-                return $"pack://application:,,,/Assets/WoodTheme/BlackChecker.png";
+                return $"pack://application:,,,/Assets/{theme}Theme/BlackChecker.png";
             }
 
             if (piece.Equals(Piece.BlackKing))
             {
-                return $"pack://application:,,,/Assets/WoodTheme/BlackKing.png";
+                return $"pack://application:,,,/Assets/{theme}Theme/BlackKing.png";
             }
 
             throw new MissingMemberException("Piece not found");
@@ -179,7 +198,8 @@ namespace CheckersWPF.CustomControls
 
         private void LoadBoard()
         {
-            var uri = new Uri($"pack://application:,,,/Assets/WoodTheme/CheckerBoard.png", UriKind.Absolute);
+            var theme = Properties.Settings.Default.Theme;
+            var uri = new Uri($"pack://application:,,,/Assets/{theme}Theme/CheckerBoard.png", UriKind.Absolute);
             var bitmapImage = new BitmapImage(uri);
 
             var image = new Image
@@ -195,35 +215,23 @@ namespace CheckersWPF.CustomControls
             DeleteBoard();
             BoardGrid.Children.Add(image);
         }
-
-        //private void DataChanged(ApplicationData sender, object args)
-        //{
-        //    UpdateTheme();
-
-        //    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-        //    {
-        //        if ((string)_roamingSettings.Values["EnableMoveHints"] == bool.FalseString)
-        //        {
-        //            ClearBorders();
-        //        }
-        //    });
-        //}
+        
 
         private string _currentTheme;
         private void UpdateTheme()
         {
-            //if ((string)_roamingSettings.Values["Theme"] == _currentTheme)
-            //{
-            //    return;
-            //}
+            if (Settings.Default.Theme == _currentTheme)
+            {
+                return;
+            }
 
-            //Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    _currentTheme = (string)_roamingSettings.Values["Theme"];
-            //    LoadBoard();
-            //    LoadPieces(null, Board);
-            //    RecolorBorders();
-            //});
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _currentTheme = Settings.Default.Theme;
+                LoadBoard();
+                LoadPieces(null, Board);
+                RecolorBorders();
+            }, DispatcherPriority.Normal);
         }
 
         private void RecolorBorders()
@@ -345,24 +353,25 @@ namespace CheckersWPF.CustomControls
         {
             if (piece == null) { return null; }
 
+            var theme = Properties.Settings.Default.Theme;
             if (piece.Equals(Piece.WhiteChecker))
             {
-                return new Uri($"pack://application:,,,/Assets/WoodTheme/WhiteChecker.png", UriKind.Absolute);
+                return new Uri($"pack://application:,,,/Assets/{theme}Theme/WhiteChecker.png", UriKind.Absolute);
             }
 
             if (piece.Equals(Piece.WhiteKing))
             {
-                return new Uri($"pack://application:,,,/Assets/WoodTheme/WhiteKing.png", UriKind.Absolute);
+                return new Uri($"pack://application:,,,/Assets/{theme}Theme/WhiteKing.png", UriKind.Absolute);
             }
 
             if (piece.Equals(Piece.BlackChecker))
             {
-                return new Uri($"pack://application:,,,/Assets/WoodTheme/BlackChecker.png", UriKind.Absolute);
+                return new Uri($"pack://application:,,,/Assets/{theme}Theme/BlackChecker.png", UriKind.Absolute);
             }
 
             if (piece.Equals(Piece.BlackKing))
             {
-                return new Uri($"pack://application:,,,/Assets/WoodTheme/BlackKing.png", UriKind.Absolute);
+                return new Uri($"pack://application:,,,/Assets/{theme}Theme/BlackKing.png", UriKind.Absolute);
             }
 
             throw new MissingMemberException("Piece not found");

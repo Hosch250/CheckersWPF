@@ -22,5 +22,41 @@ namespace CheckersWPF.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Wood")]
+        public string Theme {
+            get {
+                return ((string)(this["Theme"]));
+            }
+            set {
+                this["Theme"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string EnableSoundEffects {
+            get {
+                return ((string)(this["EnableSoundEffects"]));
+            }
+            set {
+                this["EnableSoundEffects"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string EnableMoveHints {
+            get {
+                return ((string)(this["EnableMoveHints"]));
+            }
+            set {
+                this["EnableMoveHints"] = value;
+            }
+        }
     }
 }
