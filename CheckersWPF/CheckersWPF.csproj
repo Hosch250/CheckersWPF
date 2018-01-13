@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Checkers">
+      <HintPath>..\..\CheckersTreasury\Checkers\bin\Release\Checkers.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core, Version=4.4.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -54,20 +58,55 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="Enums\PageLayout.cs" />
+    <Compile Include="Pages\GamePage.xaml.cs">
+      <DependentUpon>GamePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\IResizable.cs" />
+    <Compile Include="VMs\BoardEditorViewModel.cs" />
+    <Compile Include="VMs\GamePageViewModel.cs" />
+    <Compile Include="VMs\NavigationViewModel.cs" />
+    <Compile Include="VMs\RulesViewModel.cs" />
+    <Compile Include="VMs\SettingsViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Converters\BooleanToHiddenVisibilityConverter.cs" />
+    <Compile Include="Converters\IntegerToListItemConverter.cs" />
+    <Compile Include="Converters\PDNMoveToDisplayString.cs" />
+    <Compile Include="Converters\PDNMoveToVisibility.cs" />
+    <Compile Include="Converters\PdnTurnToMenuConverter.cs" />
+    <Compile Include="Converters\PlayerToFontWeightConverter.cs" />
+    <Compile Include="Converters\PlayerToWinNotationConverter.cs" />
+    <Compile Include="Converters\SetupToVisibilityConverter.cs" />
+    <Compile Include="Converters\VariantsToDisplayStrings.cs" />
+    <Compile Include="Converters\VariantToDisplayString.cs" />
+    <Compile Include="Enums\Opponent.cs" />
+    <Compile Include="Enums\Setup.cs" />
+    <Compile Include="Enums\Theme.cs" />
+    <Compile Include="Facade\Board.cs" />
+    <Compile Include="Facade\Coord.cs" />
+    <Compile Include="Facade\GameController.cs" />
+    <Compile Include="Facade\GeneralTypes.cs" />
+    <Compile Include="Facade\PDNMove.cs" />
+    <Compile Include="Facade\PDNTurn.cs" />
+    <Compile Include="Facade\Piece.cs" />
+    <Page Include="CustomControls\EightPieceBoard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\GamePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomControls\EightPieceBoard.xaml.cs">
+      <DependentUpon>EightPieceBoard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -85,6 +124,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Assets\PlasticTheme\BlackKing.psd" />
+    <None Include="Assets\PlasticTheme\WhiteKing.psd" />
+    <None Include="Assets\SteelTheme\BlackKing.psd" />
+    <None Include="Assets\SteelTheme\WhiteKing.psd" />
+    <None Include="Assets\WoodTheme\BlackKing.psd" />
+    <None Include="Assets\WoodTheme\WhiteKing.psd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -92,6 +137,39 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\BlackCircle.png" />
+    <Resource Include="Assets\cancel.png" />
+    <Resource Include="Assets\gear.png" />
+    <Resource Include="Assets\LockScreenLogo.scale-200.png" />
+    <Resource Include="Assets\PlasticTheme\BlackChecker.png" />
+    <Resource Include="Assets\PlasticTheme\BlackKing.png" />
+    <Resource Include="Assets\PlasticTheme\CheckerBoard.png" />
+    <Content Include="Assets\PlasticTheme\CheckerClick.mp3" />
+    <Resource Include="Assets\PlasticTheme\WhiteChecker.png" />
+    <Resource Include="Assets\PlasticTheme\WhiteKing.png" />
+    <Resource Include="Assets\plus.png" />
+    <Resource Include="Assets\SplashScreen.scale-200.png" />
+    <Resource Include="Assets\Square150x150Logo.scale-100.png" />
+    <Resource Include="Assets\Square44x44Logo.scale-200.png" />
+    <Resource Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Resource Include="Assets\SteelTheme\BlackChecker.png" />
+    <Resource Include="Assets\SteelTheme\BlackKing.png" />
+    <Resource Include="Assets\SteelTheme\CheckerBoard.png" />
+    <Content Include="Assets\SteelTheme\CheckerClick.mp3" />
+    <Resource Include="Assets\SteelTheme\WhiteChecker.png" />
+    <Resource Include="Assets\SteelTheme\WhiteKing.png" />
+    <Resource Include="Assets\StoreLogo.png" />
+    <Resource Include="Assets\undo.png" />
+    <Resource Include="Assets\WhiteCircle.png" />
+    <Resource Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Resource Include="Assets\WoodTheme\BlackChecker.png" />
+    <Resource Include="Assets\WoodTheme\BlackKing.png" />
+    <Resource Include="Assets\WoodTheme\CheckerBoard.png" />
+    <Content Include="Assets\WoodTheme\CheckerClick.mp3" />
+    <Resource Include="Assets\WoodTheme\WhiteChecker.png" />
+    <Resource Include="Assets\WoodTheme\WhiteKing.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

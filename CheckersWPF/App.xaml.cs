@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CheckersWPF.Pages;
 using System.Windows;
 
 namespace CheckersWPF
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            var board = new GamePage();
+
+            MainWindow = new Window
+            {
+                Content = board
+            };
+
+            MainWindow.Show();
+        }
     }
 }
