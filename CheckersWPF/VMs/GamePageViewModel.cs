@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using CheckersWPF.Enums;
 using System.Windows;
 using System.Windows.Controls;
+using CheckersWPF.Properties;
 
 namespace CheckersWPF.VMs
 {
@@ -73,6 +74,7 @@ namespace CheckersWPF.VMs
                 OnPropertyChanged(nameof(Status));
                 OnPropertyChanged(nameof(IsGameInProgress));
                 OnPropertyChanged(nameof(UndoMoveCommand));
+                UndoMoveCommand.RaiseCanExecuteChanged();
 
                 WinningPlayer = value.GetWinningPlayer();
             }
@@ -95,10 +97,10 @@ namespace CheckersWPF.VMs
                 return Task.CompletedTask;
             }
 
-            //if (bool.Parse((string)RoamingSettings["EnableSoundEffects"]))
-            //{
+            if (bool.Parse(Settings.Default.EnableSoundEffects))
+            {
                 PlayEffect();
-            //}
+            }
             
             Controller = Controller.WithBoard(LastMove()).Move(move);
             OnPropertyChanged(nameof(LastTurn));

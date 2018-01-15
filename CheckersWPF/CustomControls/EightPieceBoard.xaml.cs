@@ -15,8 +15,6 @@ namespace CheckersWPF.CustomControls
 {
     public partial class EightPieceBoard
     {
-        //private readonly ApplicationDataContainer _roamingSettings = ApplicationData.Current.RoamingSettings;
-
         public static readonly DependencyProperty BoardProperty =
             DependencyProperty.Register(nameof(Board), typeof(Board), typeof(EightPieceBoard),
                 new PropertyMetadata(null, (sender, e) => ((EightPieceBoard)sender).LoadPieces(e.OldValue as Board, e.NewValue as Board)));
@@ -33,8 +31,7 @@ namespace CheckersWPF.CustomControls
             InitializeComponent();
             Board = Board.DefaultBoard(Variant.AmericanCheckers);
 
-            //_currentTheme = "{theme}"; // (string)_roamingSettings.Values["Theme"];
-            //ApplicationData.Current.DataChanged += DataChanged;
+            _currentTheme = Settings.Default.Theme;
 
             LoadBoard();
 

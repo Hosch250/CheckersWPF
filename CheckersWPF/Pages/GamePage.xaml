@@ -129,7 +129,6 @@
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
                 <Button Background="Transparent"
-                        IsEnabled="{Binding CanTakeback}"
                         Command="{Binding UndoMoveCommand}"
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch">
